@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table.game {
+      font-size: 14px;
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    table.game td {
+      border: 1px solid #e1e1e1;
+      padding: 0;
+      height: 30px;
+      text-align: center;
+    }
+
+    table.game td.current {
+      background: #1890ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="jsContainer">
+    <table class="game">
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="current"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    bind();
+    // 获取坐标
+    function bind() {
+      // 获取tr
+      const oTr = document.getElementsByTagName("tr");
+
+
+      document.onkeydown = event => {
+
+        // 创建数组储存当前的行列
+        let arr = [0, 0];
+        let flag = false;
+        // 获取起始位置
+        for (let i = 0; i < oTr.length; i++) {
+          for (let j = 0; j < oTr[i].children.length; j++) {
+            // 判断当前是否有类名
+            if (oTr[i].children[j].className) {
+              // 将坐标存下
+              arr[1] = j;
+              // 更改状态
+              flag = true;
+              // 跳出循环
+              break;
+            }
+          }
+          if (flag) break;
+          // 增加行的数量
+          arr[0] += 1;
+        }
+
+        if (!event) return;
+        let code = event.keyCode || '';
+        if (!{ '37': 1, '38': 1, '39': 1, '40': 1 }[code]) return;
+        event.preventDefault && event.preventDefault();
+        //TODO: 请实现按键控制
+        // 获取坐标
+
+        // 判断当前按下的是哪个键
+        switch (code) {
+          case 38:
+            // 移除当前坐标的类名
+            oTr[arr[0]].children[arr[1]].className = "";
+            // 判断是否顶格
+            if (arr[0] - 1 < 0) arr[0] = oTr.length;
+            // 给新的坐标添加类名
+            oTr[arr[0] -= 1].children[arr[1]].className = "current";
+            break;
+          case 40:
+            // 移除当前坐标的类名
+            oTr[arr[0]].children[arr[1]].className = "";
+            // 判断是否顶格
+            if (arr[0] + 1 > oTr.length - 1) arr[0] = -1;
+            // 给新的坐标添加类名
+            oTr[arr[0] += 1].children[arr[1]].className = "current";
+            break;
+          case 37:
+            // 移除当前坐标的类名
+            oTr[arr[0]].children[arr[1]].className = "";
+            // 判断是否顶格
+            if (arr[1] - 1 < 0) arr[1] = oTr[arr[1]].children.length;
+            // 给新的坐标添加类名
+            oTr[arr[0]].children[arr[1] -= 1].className = "current";
+            break;
+          case 39:
+            // 移除当前坐标的类名
+            oTr[arr[0]].children[arr[1]].className = "";
+            // 判断是否顶格
+            if (arr[1] + 1 > oTr[arr[0]].children.length - 1) arr[1] = -1;
+            // 给新的坐标添加类名
+            oTr[arr[0]].children[arr[1] += 1].className = "current";
+            break;
+        }
+      };
+    }
+
+
+  </script>
+</body>
+
+</html>
